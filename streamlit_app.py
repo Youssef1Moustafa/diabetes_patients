@@ -22,4 +22,4 @@ Age =  st.number_input('Age' , min_value=0.0 , max_value=100.0,value=1.0)
 output = model.predict([[Pregnancies,Glucose,Insulin,BMI,DiabetesPedigreeFunction,Age]])
 
 #display the result
-st.write("diabetes patient : ",round(output[0][0],2))
+st.write("diabetes patient : ",round(output[0],2))
