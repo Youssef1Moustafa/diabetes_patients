@@ -1,5 +1,5 @@
-import streamlit as st
 import pickle
+import streamlit as st
 
 # Load pkl file
 try:
@@ -11,6 +11,11 @@ except Exception as e:
 
 # Display model type
 st.write(f"Model type: {type(model)}")
+
+# If it's a numpy.ndarray, it's not a model
+if isinstance(model, (list, np.ndarray)):
+    st.error("Loaded object is not a valid scikit-learn model.")
+    st.stop()
 
 # Title the page
 st.title("Diabetes Prediction")
