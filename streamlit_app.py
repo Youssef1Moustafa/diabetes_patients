@@ -4,7 +4,7 @@ import numpy as np
 
 # Load pkl file
 try:
-    with open('model_diabetes.pkl', 'rb') as file:
+    with open('model_svm.pkl', 'rb') as file:
         model = pickle.load(file)
 except Exception as e:
     st.error(f"Error loading model: {e}")
