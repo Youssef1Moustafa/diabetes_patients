@@ -2,23 +2,25 @@ import streamlit as st
 import pickle
 import numpy as np
 
-# Load the model from the file
-with open('model_svm.pkl', 'rb') as file:
-    model = pickle.load(file)
+# Load the model and features from the file
+with open('model_features.pkl', 'rb') as file:
+    model_data = pickle.load(file)
+
+# Extract the model and feature names
+model = model_data['model']
+features = model_data['features']
 
 # Title of the page
 st.title("Diabetes Prediction")
 
-# Input fields
-Pregnancies = st.number_input('Pregnancies', min_value=0.0, max_value=7.0, value=1.0)
-Glucose = st.number_input('Glucose', min_value=0.0, max_value=7.0, value=1.0)
-Insulin = st.number_input('Insulin', min_value=0.0, max_value=7.0, value=1.0)
-BMI = st.number_input('BMI', min_value=0.0, max_value=7.0, value=1.0)
-DiabetesPedigreeFunction = st.number_input('DiabetesPedigreeFunction', min_value=0.0, max_value=7.0, value=1.0)
-Age = st.number_input('Age', min_value=0.0, max_value=7.0, value=1.0)
+# Create input fields dynamically based on feature names
+input_data = []
+for feature in features:
+    value = st.number_input(feature, min_value=0.0, max_value=200.0, value=1.0)  # Adjust min/max values as needed
+    input_data.append(value)
 
-# Create feature array for prediction
-input_data = np.array([[Pregnancies, Glucose, Insulin, BMI, DiabetesPedigreeFunction, Age]])
+# Convert input_data to a numpy array with the shape (1, -1) for prediction
+input_data = np.array([input_data])
 
 # Make prediction
 if st.button('Predict'):
@@ -27,4 +29,5 @@ if st.button('Predict'):
         st.write("Prediction:", "Diabetic" if output[0] == 1 else "Not Diabetic")
     except Exception as e:
         st.error(f"Error making prediction: {e}")
+
 
