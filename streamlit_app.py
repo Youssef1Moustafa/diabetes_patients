@@ -1,10 +1,16 @@
+import os
 import streamlit as st
 import pickle
 import numpy as np
 
-# Load the model and features from the file
-with open('model_features.pkl', 'rb') as file:
-    model_data = pickle.load(file)
+# Check if the file exists
+file_path = 'model_features.pkl'
+if os.path.exists(file_path):
+    with open(file_path, 'rb') as file:
+        model_data = pickle.load(file)
+else:
+    st.error(f"File {file_path} not found. Please ensure the file is in the correct location.")
+    st.stop()
 
 # Extract the model and feature names
 model = model_data['model']
@@ -29,5 +35,3 @@ if st.button('Predict'):
         st.write("Prediction:", "Diabetic" if output[0] == 1 else "Not Diabetic")
     except Exception as e:
         st.error(f"Error making prediction: {e}")
-
-
